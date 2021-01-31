@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.h>/*ass*/
 #include <stdlib.h>
 #include <time.h>
 #include <malloc.h>
