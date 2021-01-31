@@ -5,10 +5,10 @@
 #include <windows.h>
 #include "CONST.h"
 
-int creatingRandomBones(int);									/*Создаёт массив из 6 элементов, наполняет его рандомными значениями от 1 до 6 и возвращяет*/
-int selectionOfBones(int*, int*);								/*Обрабатывает выбор игрока и возвращает массив с этим выбором*/
-void calculatingTheSum(int*, int*);								/*Подсчитывает сумму костей*/
-int botMove(int*, int*);										/*Вибирает лучшую комбинацию из возможных и возвращает массив с ней*/
+int creatingRandomBones(int);					/*Создаёт массив из 6 элементов, наполняет его рандомными значениями от 1 до 6 и возвращяет*/
+int selectionOfBones(int*, int*);				/*Обрабатывает выбор игрока и возвращает массив с этим выбором*/
+void calculatingTheSum(int*, int*);				/*Подсчитывает сумму костей*/
+int botMove(int*, int*);						/*Вибирает лучшую комбинацию из возможных и возвращает массив с ней*/
 
 int main()
 {
@@ -16,7 +16,7 @@ int main()
 
 	printf("\t\t\t\t\t\tNew game !\n\n");
 
-	while (playerResult < WINNING_RESULT && botResult < WINNING_RESULT)													/*Условие победы*/
+	while (playerResult < WINNING_RESULT && botResult < WINNING_RESULT)						/*Условие победы*/
 	{
 		printf("\t\t\t\t\t\tRound %d\n\n", i);
 
