@@ -1,14 +1,14 @@
-#include <stdio.h>/*ass*/
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <malloc.h>
 #include <windows.h>
 #include "CONST.h"
 
-int creatingRandomBones(int);									/*Создаёт массив из 6 элементов, наполняет его рандомными значениями от 1 до 6 и возвращяет*/
-int selectionOfBones(int*, int*);								/*Обрабатывает выбор игрока и возвращает массив с этим выбором*/
-void calculatingTheSum(int*, int*);								/*Подсчитывает сумму костей*/
-int botMove(int*, int*);										/*Вибирает лучшую комбинацию из возможных и возвращает массив с ней*/
+int creatingRandomBones(int);									/*РЎРѕР·РґР°С‘С‚ РјР°СЃСЃРёРІ РёР· 6 СЌР»РµРјРµРЅС‚РѕРІ, РЅР°РїРѕР»РЅСЏРµС‚ РµРіРѕ СЂР°РЅРґРѕРјРЅС‹РјРё Р·РЅР°С‡РµРЅРёСЏРјРё РѕС‚ 1 РґРѕ 6 Рё РІРѕР·РІСЂР°С‰СЏРµС‚*/
+int selectionOfBones(int*, int*);								/*РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РІС‹Р±РѕСЂ РёРіСЂРѕРєР° Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РјР°СЃСЃРёРІ СЃ СЌС‚РёРј РІС‹Р±РѕСЂРѕРј*/
+void calculatingTheSum(int*, int*);								/*РџРѕРґСЃС‡РёС‚С‹РІР°РµС‚ СЃСѓРјРјСѓ РєРѕСЃС‚РµР№*/
+int botMove(int*, int*);										/*Р’РёР±РёСЂР°РµС‚ Р»СѓС‡С€СѓСЋ РєРѕРјР±РёРЅР°С†РёСЋ РёР· РІРѕР·РјРѕР¶РЅС‹С… Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РјР°СЃСЃРёРІ СЃ РЅРµР№*/
 
 int main()
 {
@@ -16,7 +16,7 @@ int main()
 
 	printf("\t\t\t\t\t\tNew game !\n\n");
 
-	while (playerResult < WINNING_RESULT && botResult < WINNING_RESULT)													/*Условие победы*/
+	while (playerResult < WINNING_RESULT && botResult < WINNING_RESULT)													/*РЈСЃР»РѕРІРёРµ РїРѕР±РµРґС‹*/
 	{
 		printf("\t\t\t\t\t\tRound %d\n\n", i);
 
@@ -25,7 +25,7 @@ int main()
 		{
 			calculatingTheSum(selectionOfBones(creatingRandomBones(6 - numberOfSelectedBones), &numberOfSelectedBones), &sum);
 
-			if (sum == -1)																								/*Игрок выбирает комбинацию, которая не приносит очков и вызывает обнуление текущей суммы*/
+			if (sum == -1)																								/*РРіСЂРѕРє РІС‹Р±РёСЂР°РµС‚ РєРѕРјР±РёРЅР°С†РёСЋ, РєРѕС‚РѕСЂР°СЏ РЅРµ РїСЂРёРЅРѕСЃРёС‚ РѕС‡РєРѕРІ Рё РІС‹Р·С‹РІР°РµС‚ РѕР±РЅСѓР»РµРЅРёРµ С‚РµРєСѓС‰РµР№ СЃСѓРјРјС‹*/
 			{
 				printf("\nThe current result is 0\n\n");
 				printf("\nThe final result is %d\n\n", playerResult);
@@ -36,11 +36,11 @@ int main()
 			}
 			else if (numberOfSelectedBones == 6)
 			{
-				printf("\nThe current result is %d\nEnter 0 to save the result, or enter 1 to continue\n", sum);		/*Игрок выбирает 6 костей*/
+				printf("\nThe current result is %d\nEnter 0 to save the result, or enter 1 to continue\n", sum);		/*РРіСЂРѕРє РІС‹Р±РёСЂР°РµС‚ 6 РєРѕСЃС‚РµР№*/
 				scanf_s("%d", &playerDecision);
 				numberOfSelectedBones = 0;
 			}
-			else																										/*Игрок выбирает меньше 6 костей*/
+			else																										/*РРіСЂРѕРє РІС‹Р±РёСЂР°РµС‚ РјРµРЅСЊС€Рµ 6 РєРѕСЃС‚РµР№*/
 			{
 				printf("\nThe current result is %d\nEnter 0 to save the result, or enter 1 to continue\n", sum);
 				scanf_s("%d", &playerDecision);
@@ -67,7 +67,7 @@ int main()
 			calculatingTheSum(botMove(creatingRandomBones(6 - numberOfSelectedBones), &numberOfSelectedBones), &sum);
 			Sleep (3000);
 
-			if (sum == -1)																								/*Бот выбирает комбинацию, которая не приносит очков и вызывает обнуление текущей суммы*/
+			if (sum == -1)																								/*Р‘РѕС‚ РІС‹Р±РёСЂР°РµС‚ РєРѕРјР±РёРЅР°С†РёСЋ, РєРѕС‚РѕСЂР°СЏ РЅРµ РїСЂРёРЅРѕСЃРёС‚ РѕС‡РєРѕРІ Рё РІС‹Р·С‹РІР°РµС‚ РѕР±РЅСѓР»РµРЅРёРµ С‚РµРєСѓС‰РµР№ СЃСѓРјРјС‹*/
 			{
 				printf("\nBot's current result is 0\n\n");
 				printf("\nBot's final result is %d\n\n", botResult);
@@ -76,16 +76,16 @@ int main()
 				botDecision = 0;
 				break;
 			}
-			else if (numberOfSelectedBones == 6)																		/*Бот выбирает 6 костей*/
+			else if (numberOfSelectedBones == 6)																		/*Р‘РѕС‚ РІС‹Р±РёСЂР°РµС‚ 6 РєРѕСЃС‚РµР№*/
 			{
 				printf("\nBot's current result is %d\n\n", sum);														
 				numberOfSelectedBones = 0;
 			}
-			else																										/*Бот выбирает меньше 6 костей*/
+			else																										/*Р‘РѕС‚ РІС‹Р±РёСЂР°РµС‚ РјРµРЅСЊС€Рµ 6 РєРѕСЃС‚РµР№*/
 			{
 				printf("\nBot's current result is %d\n\n", sum);
 
-				if (numberOfSelectedBones >= 4 || (sum > 300 && numberOfSelectedBones >= 3))							/*Условие окончания хода*/
+				if (numberOfSelectedBones >= 4 || (sum > 300 && numberOfSelectedBones >= 3))							/*РЈСЃР»РѕРІРёРµ РѕРєРѕРЅС‡Р°РЅРёСЏ С…РѕРґР°*/
 				{
 					botResult = botResult + sum;
 					sum = 0;
@@ -108,13 +108,13 @@ int main()
 }
 
 
-int creatingRandomBones(int allBones)								/*Бросок n костей*/
+int creatingRandomBones(int allBones)								/*Р‘СЂРѕСЃРѕРє n РєРѕСЃС‚РµР№*/
 {
-	int i, *randomBones = (int*)malloc(allBones * sizeof(int));		/*Выделение памяти под n элемернтов типа int */
+	int i, *randomBones = (int*)malloc(allBones * sizeof(int));		/*Р’С‹РґРµР»РµРЅРёРµ РїР°РјСЏС‚Рё РїРѕРґ n СЌР»РµРјРµСЂРЅС‚РѕРІ С‚РёРїР° int */
 
 	srand(time(NULL));
 
-	for (i = 0; i <= allBones - 1; i++)								/*Заполняет n элементов случайными числами от 1 до 6*/
+	for (i = 0; i <= allBones - 1; i++)								/*Р—Р°РїРѕР»РЅСЏРµС‚ n СЌР»РµРјРµРЅС‚РѕРІ СЃР»СѓС‡Р°Р№РЅС‹РјРё С‡РёСЃР»Р°РјРё РѕС‚ 1 РґРѕ 6*/
 	{
 		*(randomBones + i) = rand() % 5 + 1;
 		printf("|%d|  ", *(randomBones + i));
@@ -129,12 +129,12 @@ int botMove(int* randomBones, int* selItems)
 	int  i;
 	static int	amountBones[6];
 
-	for (i = 0; i <= 5; i++)										/*Обнуление массива*/
+	for (i = 0; i <= 5; i++)										/*РћР±РЅСѓР»РµРЅРёРµ РјР°СЃСЃРёРІР°*/
 	{
 		amountBones[i] = 0;
 	}
 
-	for (i = 0; i <= 5; ++i)										/*Запись в массив количества костей каждого номинала*/
+	for (i = 0; i <= 5; ++i)										/*Р—Р°РїРёСЃСЊ РІ РјР°СЃСЃРёРІ РєРѕР»РёС‡РµСЃС‚РІР° РєРѕСЃС‚РµР№ РєР°Р¶РґРѕРіРѕ РЅРѕРјРёРЅР°Р»Р°*/
 	{
 		switch (*(randomBones + i))
 		{
@@ -159,16 +159,16 @@ int botMove(int* randomBones, int* selItems)
 		}
 	}
 
-	for (i = 0; i <= 5; i++)										/*Удаление не приносящих очки значений*/
+	for (i = 0; i <= 5; i++)										/*РЈРґР°Р»РµРЅРёРµ РЅРµ РїСЂРёРЅРѕСЃСЏС‰РёС… РѕС‡РєРё Р·РЅР°С‡РµРЅРёР№*/
 	{
 		if ((i != 0 && i != 4) && amountBones[i] <= 2)
 		{
 			amountBones[i] = 0;
 		}
-		*selItems = *selItems + amountBones[i];						/*Подсчёт количества выбранных костей*/
+		*selItems = *selItems + amountBones[i];						/*РџРѕРґСЃС‡С‘С‚ РєРѕР»РёС‡РµСЃС‚РІР° РІС‹Р±СЂР°РЅРЅС‹С… РєРѕСЃС‚РµР№*/
 	}
 
-	if (*selItems == 0)												/*Если отсутствуют подходящие для выбора элемнеты, то в массив записывается одна 2*/
+	if (*selItems == 0)												/*Р•СЃР»Рё РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ РїРѕРґС…РѕРґСЏС‰РёРµ РґР»СЏ РІС‹Р±РѕСЂР° СЌР»РµРјРЅРµС‚С‹, С‚Рѕ РІ РјР°СЃСЃРёРІ Р·Р°РїРёСЃС‹РІР°РµС‚СЃСЏ РѕРґРЅР° 2*/
 	{
 		amountBones[1] = 1;
 	}
@@ -185,22 +185,22 @@ int selectionOfBones(int* randomBones, int* selItems)
 	static int amountBones[6];
 
 	printf("\n\nEnter bone numbers (enter 0 to finish)\n");
-	for (i = 0; i <= 5 && d != 0; ++i)								/*Игрок выбирает кости и вводи их номера*/
+	for (i = 0; i <= 5 && d != 0; ++i)								/*РРіСЂРѕРє РІС‹Р±РёСЂР°РµС‚ РєРѕСЃС‚Рё Рё РІРІРѕРґРё РёС… РЅРѕРјРµСЂР°*/
 	{
 		scanf_s("%d", &d);
 		boneNumbers[i] = d;
-		if (d != 0)													/*Счётчик не должен защитывать символ завершения ввода*/
+		if (d != 0)													/*РЎС‡С‘С‚С‡РёРє РЅРµ РґРѕР»Р¶РµРЅ Р·Р°С‰РёС‚С‹РІР°С‚СЊ СЃРёРјРІРѕР» Р·Р°РІРµСЂС€РµРЅРёСЏ РІРІРѕРґР°*/
 		{
-			(*selItems)++;											/*Считает количество выбранных костей*/
+			(*selItems)++;											/*РЎС‡РёС‚Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РІС‹Р±СЂР°РЅРЅС‹С… РєРѕСЃС‚РµР№*/
 		}
 	}
 
-	for (i = 0; i <= 5; i++)										/*Обнуление массива*/
+	for (i = 0; i <= 5; i++)										/*РћР±РЅСѓР»РµРЅРёРµ РјР°СЃСЃРёРІР°*/
 	{
 		amountBones[i] = 0;
 	}
 
-	for (i = 0; boneNumbers[i] != 0 && i <= 5; ++i)					/*Запись в массив количества костей каждого номинала*/
+	for (i = 0; boneNumbers[i] != 0 && i <= 5; ++i)					/*Р—Р°РїРёСЃСЊ РІ РјР°СЃСЃРёРІ РєРѕР»РёС‡РµСЃС‚РІР° РєРѕСЃС‚РµР№ РєР°Р¶РґРѕРіРѕ РЅРѕРјРёРЅР°Р»Р°*/
 	{
 		switch (*(randomBones + boneNumbers[i] - 1))
 		{
@@ -235,9 +235,9 @@ void calculatingTheSum(int* amountBones, int* sum)
 {
 	int i;
 
-	for (i = 0; i <= 5; i++)										/*Подсчёт результата*/
+	for (i = 0; i <= 5; i++)										/*РџРѕРґСЃС‡С‘С‚ СЂРµР·СѓР»СЊС‚Р°С‚Р°*/
 	{
-		if (i == 0)													/*Для 1 и 5 действуют отдельные правила подсчёта суммы*/
+		if (i == 0)													/*Р”Р»СЏ 1 Рё 5 РґРµР№СЃС‚РІСѓСЋС‚ РѕС‚РґРµР»СЊРЅС‹Рµ РїСЂР°РІРёР»Р° РїРѕРґСЃС‡С‘С‚Р° СЃСѓРјРјС‹*/
 		{
 			switch (*amountBones)
 			{
@@ -308,7 +308,7 @@ void calculatingTheSum(int* amountBones, int* sum)
 		}
 	}
 
-	for (i = 0; i <= 5; i++)											/*Обнуление суммы в том случае, если была выбрана одна или две кости со значением 2,3,4,6*/
+	for (i = 0; i <= 5; i++)											/*РћР±РЅСѓР»РµРЅРёРµ СЃСѓРјРјС‹ РІ С‚РѕРј СЃР»СѓС‡Р°Рµ, РµСЃР»Рё Р±С‹Р»Р° РІС‹Р±СЂР°РЅР° РѕРґРЅР° РёР»Рё РґРІРµ РєРѕСЃС‚Рё СЃРѕ Р·РЅР°С‡РµРЅРёРµРј 2,3,4,6*/
 	{
 		if (i == 1 || i == 2 || i == 3 || i == 5)
 		{
