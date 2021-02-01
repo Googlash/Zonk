@@ -124,7 +124,7 @@ int creatingRandomBones(int allBones)								/*Бросок n костей*/
 }
 
 
-int botMove(int* randomBones, int* selItems)
+int botMove(int* randomBonesPtr, int* selItemsPtr)
 {
 	int  i;
 	static int	amountBones[6];
@@ -136,7 +136,7 @@ int botMove(int* randomBones, int* selItems)
 
 	for (i = 0; i <= 5; ++i)										/*Запись в массив количества костей каждого номинала*/
 	{
-		switch (*(randomBones + i))
+		switch (*(randomBonesPtr + i))
 		{
 		case 1:
 			amountBones[0]++;
@@ -165,21 +165,21 @@ int botMove(int* randomBones, int* selItems)
 		{
 			amountBones[i] = 0;
 		}
-		*selItems = *selItems + amountBones[i];						/*Подсчёт количества выбранных костей*/
+		*selItemsPtr = *selItemsPtr + amountBones[i];						/*Подсчёт количества выбранных костей*/
 	}
 
-	if (*selItems == 0)												/*Если отсутствуют подходящие для выбора элемнеты, то в массив записывается одна 2*/
+	if (*selItemsPtr == 0)												/*Если отсутствуют подходящие для выбора элемнеты, то в массив записывается одна 2*/
 	{
 		amountBones[1] = 1;
 	}
 
-	free(randomBones);
+	free(randomBonesPtr);
 
 	return amountBones;
 }
 
 
-int selectionOfBones(int* randomBones, int* selItems)
+int selectionOfBones(int* randomBonesPtr, int* selItemsPtr)
 {
 	int i, d = -1, boneNumbers[6] = { 0 };
 	static int amountBones[6];
@@ -191,7 +191,7 @@ int selectionOfBones(int* randomBones, int* selItems)
 		boneNumbers[i] = d;
 		if (d != 0)													/*Счётчик не должен защитывать символ завершения ввода*/
 		{
-			(*selItems)++;											/*Считает количество выбранных костей*/
+			(*selItemsPtr)++;											/*Считает количество выбранных костей*/
 		}
 	}
 
@@ -202,7 +202,7 @@ int selectionOfBones(int* randomBones, int* selItems)
 
 	for (i = 0; boneNumbers[i] != 0 && i <= 5; ++i)					/*Запись в массив количества костей каждого номинала*/
 	{
-		switch (*(randomBones + boneNumbers[i] - 1))
+		switch (*(randomBonesPtr + boneNumbers[i] - 1))
 		{
 		case 1:
 			amountBones[0]++;
@@ -225,13 +225,13 @@ int selectionOfBones(int* randomBones, int* selItems)
 		}
 	}
 
-	free(randomBones);
+	free(randomBonesPtr);
 
 	return amountBones;
 }
 
 
-void calculatingTheSum(int* amountBones, int* sum)
+void calculatingTheSum(int* amountBonesPtr, int* sumPtr)
 {
 	int i;
 
@@ -239,69 +239,69 @@ void calculatingTheSum(int* amountBones, int* sum)
 	{
 		if (i == 0)													/*Для 1 и 5 действуют отдельные правила подсчёта суммы*/
 		{
-			switch (*amountBones)
+			switch (*amountBonesPtr)
 			{
 			case 1:
-				*sum = *sum + HUNDRED;
+				*sumPtr = *sumPtr + HUNDRED;
 				break;
 			case 2:
-				*sum = *sum + 2 * HUNDRED;
+				*sumPtr = *sumPtr + 2 * HUNDRED;
 				break;
 			case 3:
-				*sum = *sum + THOUSAND;
+				*sumPtr = *sumPtr + THOUSAND;
 				break;
 			case 4:
-				*sum = *sum + 2 * THOUSAND;
+				*sumPtr = *sumPtr + 2 * THOUSAND;
 				break;
 			case 5:
-				*sum = *sum + 4 * THOUSAND;
+				*sumPtr = *sumPtr + 4 * THOUSAND;
 				break;
 			case 6:
-				*sum = *sum + 8 * THOUSAND;
+				*sumPtr = *sumPtr + 8 * THOUSAND;
 				break;
 			}
 		}
 		else if (i == 4)
 		{
-			switch (*(amountBones + 4))
+			switch (*(amountBonesPtr + 4))
 			{
 			case 1:
-				*sum = *sum + FIFTY;
+				*sumPtr = *sumPtr + FIFTY;
 				break;
 			case 2:
-				*sum = *sum + 2 * FIFTY;
+				*sumPtr = *sumPtr + 2 * FIFTY;
 				break;
 			case 3:
-				*sum = *sum + FIVE_HUNDRED;
+				*sumPtr = *sumPtr + FIVE_HUNDRED;
 				break;
 			case 4:
-				*sum = *sum + 2 * FIVE_HUNDRED;
+				*sumPtr = *sumPtr + 2 * FIVE_HUNDRED;
 				break;
 			case 5:
-				*sum = *sum + 4 * FIVE_HUNDRED;
+				*sumPtr = *sumPtr + 4 * FIVE_HUNDRED;
 				break;
 			case 6:
-				*sum = *sum + 8 * FIVE_HUNDRED;
+				*sumPtr = *sumPtr + 8 * FIVE_HUNDRED;
 				break;
 			}
 		}
 		else
 		{
-			if (*(amountBones + i) >= 3)
+			if (*(amountBonesPtr + i) >= 3)
 			{
-				switch (*(amountBones + i))
+				switch (*(amountBonesPtr + i))
 				{
 				case 3:
-					*sum = *sum + (i + 1) * HUNDRED;
+					*sumPtr = *sumPtr + (i + 1) * HUNDRED;
 					break;
 				case 4:
-					*sum = *sum + (i + 1) * 2 * HUNDRED;
+					*sumPtr = *sumPtr + (i + 1) * 2 * HUNDRED;
 					break;
 				case 5:
-					*sum = *sum + (i + 1) * 4 * HUNDRED;
+					*sumPtr = *sumPtr + (i + 1) * 4 * HUNDRED;
 					break;
 				case 6:
-					*sum = *sum + (i + 1) * 8 * HUNDRED;
+					*sumPtr = *sumPtr + (i + 1) * 8 * HUNDRED;
 					break;
 				}
 			}
@@ -312,9 +312,9 @@ void calculatingTheSum(int* amountBones, int* sum)
 	{
 		if (i == 1 || i == 2 || i == 3 || i == 5)
 		{
-			if (*(amountBones + i) == 1 || *(amountBones + i) == 2)
+			if (*(amountBonesPtr + i) == 1 || *(amountBonesPtr + i) == 2)
 			{
-				*sum = -1;
+				*sumPtr = -1;
 			}
 		}
 	}
