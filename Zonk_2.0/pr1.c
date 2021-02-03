@@ -5,42 +5,45 @@
 #include <windows.h>
 #include "CONST.h"
 
-int creatingRandomBones(int);					/*Создаёт массив из 6 элементов, наполняет его рандомными значениями от 1 до 6 и возвращяет*/
-int selectionOfBones(int*, int*);				/*Обрабатывает выбор игрока и возвращает массив с этим выбором*/
-void calculatingTheSum(int*, int*);				/*Подсчитывает сумму костей*/
-int botMove(int*, int*);						/*Вибирает лучшую комбинацию из возможных и возвращает массив с ней*/
+int* createRandomDices(int);                    /*Создаёт массив из 6 элементов, наполняет его рандомными значениями от 1 до 6 и возвращяет*/
+int* selectionOfDices(int*, int*);              /*Обрабатывает выбор игрока и возвращает массив с этим выбором*/
+void calculateTheSum(int*, int*);               /*Подсчитывает сумму костей*/
+int* botMove(int*, int*);                       /*Вибирает лучшую комбинацию из возможных и возвращает массив с ней*/
+void printDices(int*, int);
 
 int main()
 {
-	int playerResult = 0, botResult = 0, sum = 0, i = 1, playerDecision = 1, botDecision = 1,numberOfSelectedBones = 0;
+	int playerResult = 0, botResult = 0, sum = 0, i = 1, playerDecision = 1, botDecision = 1,selectedBonesCounter = 0;
+
+	srand(time(NULL));
 
 	printf("\t\t\t\t\t\tNew game !\n\n");
 
-	while (playerResult < WINNING_RESULT && botResult < WINNING_RESULT)						/*Условие победы*/
+	while (playerResult < WINNING_RESULT && botResult < WINNING_RESULT)                                                 /*Условие победы*/
 	{
 		printf("\t\t\t\t\t\tRound %d\n\n", i);
 
 		printf("\t\t\t\t\t\tPlayer move\n\n");
 		while (playerDecision != 0)
 		{
-			calculatingTheSum(selectionOfBones(creatingRandomBones(6 - numberOfSelectedBones), &numberOfSelectedBones), &sum);
+			calculateTheSum(selectionOfDices(createRandomDices(6 - selectedBonesCounter), &selectedBonesCounter), &sum);
 
-			if (sum == -1)																								/*Игрок выбирает комбинацию, которая не приносит очков и вызывает обнуление текущей суммы*/
+			if (sum == -1)                                                                                              /*Игрок выбирает комбинацию, которая не приносит очков и вызывает обнуление текущей суммы*/
 			{
 				printf("\nThe current result is 0\n\n");
 				printf("\nThe final result is %d\n\n", playerResult);
 				sum = 0;
-				numberOfSelectedBones = 0;
+				selectedBonesCounter = 0;
 				playerDecision = 0;
 				break;
 			}
-			else if (numberOfSelectedBones == 6)
+			else if (selectedBonesCounter == 6)
 			{
-				printf("\nThe current result is %d\nEnter 0 to save the result, or enter 1 to continue\n", sum);		/*Игрок выбирает 6 костей*/
+				printf("\nThe current result is %d\nEnter 0 to save the result, or enter 1 to continue\n", sum);        /*Игрок выбирает 6 костей*/
 				scanf_s("%d", &playerDecision);
-				numberOfSelectedBones = 0;
+				selectedBonesCounter = 0;
 			}
-			else																										/*Игрок выбирает меньше 6 костей*/
+			else                                                                                                        /*Игрок выбирает меньше 6 костей*/
 			{
 				printf("\nThe current result is %d\nEnter 0 to save the result, or enter 1 to continue\n", sum);
 				scanf_s("%d", &playerDecision);
@@ -49,7 +52,7 @@ int main()
 				{
 					playerResult = playerResult + sum;
 					sum = 0;
-					numberOfSelectedBones = 0;
+					selectedBonesCounter = 0;
 					printf("\nThe final result is %d\n\n", playerResult);
 				}
 			}
@@ -64,32 +67,32 @@ int main()
 		printf("\t\t\t\t\t\tBot's move\n\n");
 		while (botDecision != 0)
 		{
-			calculatingTheSum(botMove(creatingRandomBones(6 - numberOfSelectedBones), &numberOfSelectedBones), &sum);
+			calculateTheSum(botMove(createRandomDices(6 - selectedBonesCounter), &selectedBonesCounter), &sum);
 			Sleep (3000);
 
-			if (sum == -1)																								/*Бот выбирает комбинацию, которая не приносит очков и вызывает обнуление текущей суммы*/
+			if (sum == -1)                                                                                              /*Бот выбирает комбинацию, которая не приносит очков и вызывает обнуление текущей суммы*/
 			{
 				printf("\nBot's current result is 0\n\n");
 				printf("\nBot's final result is %d\n\n", botResult);
 				sum = 0;
-				numberOfSelectedBones = 0;
+				selectedBonesCounter = 0;
 				botDecision = 0;
 				break;
 			}
-			else if (numberOfSelectedBones == 6)																		/*Бот выбирает 6 костей*/
+			else if (selectedBonesCounter == 6)                                                                         /*Бот выбирает 6 костей*/
 			{
 				printf("\nBot's current result is %d\n\n", sum);														
-				numberOfSelectedBones = 0;
+				selectedBonesCounter = 0;
 			}
-			else																										/*Бот выбирает меньше 6 костей*/
+			else                                                                                                        /*Бот выбирает меньше 6 костей*/
 			{
 				printf("\nBot's current result is %d\n\n", sum);
 
-				if (numberOfSelectedBones >= 4 || (sum > 300 && numberOfSelectedBones >= 3))							/*Условие окончания хода*/
+				if (selectedBonesCounter >= 4 || (sum > 300 && selectedBonesCounter >= 3))                              /*Условие окончания хода*/
 				{
 					botResult = botResult + sum;
 					sum = 0;
-					numberOfSelectedBones = 0;
+					selectedBonesCounter = 0;
 					botDecision = 0;
 					printf("\nBot's final result is %d\n\n", botResult);
 				}
@@ -108,138 +111,143 @@ int main()
 }
 
 
-int creatingRandomBones(int allBones)								/*Бросок n костей*/
+int* createRandomDices(int diceCount)                                               /*Бросок n костей*/
 {
-	int i, *randomBones = (int*)malloc(allBones * sizeof(int));		/*Выделение памяти под n элемернтов типа int */
+	int i, *dices = (int*)malloc(diceCount * sizeof(int));                          /*Выделение памяти под n элемернтов типа int */
 
-	srand(time(NULL));
-
-	for (i = 0; i <= allBones - 1; i++)								/*Заполняет n элементов случайными числами от 1 до 6*/
+	for (i = 0; i <= diceCount - 1; i++)                                            /*Заполняет n элементов случайными числами от 1 до 6*/
 	{
-		*(randomBones + i) = rand() % 5 + 1;
-		printf("|%d|  ", *(randomBones + i));
+		*(dices + i) = rand() % 5 + 1;
 	}
 
-	return randomBones;
+	printDices(dices, diceCount);
+
+	return dices;
 }
 
 
-int botMove(int* randomBonesPtr, int* selItemsPtr)
-{
-	int  i;
-	static int	amountBones[6];
-
-	for (i = 0; i <= 5; i++)										/*Обнуление массива*/
-	{
-		amountBones[i] = 0;
-	}
-
-	for (i = 0; i <= 5; ++i)										/*Запись в массив количества костей каждого номинала*/
-	{
-		switch (*(randomBonesPtr + i))
-		{
-		case 1:
-			amountBones[0]++;
-			break;
-		case 2:
-			amountBones[1]++;
-			break;
-		case 3:
-			amountBones[2]++;
-			break;
-		case 4:
-			amountBones[3]++;
-			break;
-		case 5:
-			amountBones[4]++;
-			break;
-		case 6:
-			amountBones[5]++;
-			break;
-		}
-	}
-
-	for (i = 0; i <= 5; i++)										/*Удаление не приносящих очки значений*/
-	{
-		if ((i != 0 && i != 4) && amountBones[i] <= 2)
-		{
-			amountBones[i] = 0;
-		}
-		*selItemsPtr = *selItemsPtr + amountBones[i];						/*Подсчёт количества выбранных костей*/
-	}
-
-	if (*selItemsPtr == 0)												/*Если отсутствуют подходящие для выбора элемнеты, то в массив записывается одна 2*/
-	{
-		amountBones[1] = 1;
-	}
-
-	free(randomBonesPtr);
-
-	return amountBones;
-}
-
-
-int selectionOfBones(int* randomBonesPtr, int* selItemsPtr)
-{
-	int i, d = -1, boneNumbers[6] = { 0 };
-	static int amountBones[6];
-
-	printf("\n\nEnter bone numbers (enter 0 to finish)\n");
-	for (i = 0; i <= 5 && d != 0; ++i)								/*Игрок выбирает кости и вводи их номера*/
-	{
-		scanf_s("%d", &d);
-		boneNumbers[i] = d;
-		if (d != 0)													/*Счётчик не должен защитывать символ завершения ввода*/
-		{
-			(*selItemsPtr)++;											/*Считает количество выбранных костей*/
-		}
-	}
-
-	for (i = 0; i <= 5; i++)										/*Обнуление массива*/
-	{
-		amountBones[i] = 0;
-	}
-
-	for (i = 0; boneNumbers[i] != 0 && i <= 5; ++i)					/*Запись в массив количества костей каждого номинала*/
-	{
-		switch (*(randomBonesPtr + boneNumbers[i] - 1))
-		{
-		case 1:
-			amountBones[0]++;
-			break;
-		case 2:
-			amountBones[1]++;
-			break;
-		case 3:
-			amountBones[2]++;
-			break;
-		case 4:
-			amountBones[3]++;
-			break;
-		case 5:
-			amountBones[4]++;
-			break;
-		case 6:
-			amountBones[5]++;
-			break;
-		}
-	}
-
-	free(randomBonesPtr);
-
-	return amountBones;
-}
-
-
-void calculatingTheSum(int* amountBonesPtr, int* sumPtr)
+void printDices(int* dicesPtr, int diceCount)
 {
 	int i;
 
-	for (i = 0; i <= 5; i++)										/*Подсчёт результата*/
+	for (i = 0; i <= diceCount - 1; i++)
 	{
-		if (i == 0)													/*Для 1 и 5 действуют отдельные правила подсчёта суммы*/
+		printf("|%d|  ", *(dicesPtr + i));
+	}
+}
+
+
+int* botMove(int* dicesPtr, int* selectedDicesCounterPtr)
+{
+	int  i;
+	static int	amountDices[6];
+
+	for (i = 0; i <= 5; i++)                                                        /*Обнуление массива*/
+	{
+		amountDices[i] = 0;
+	}
+
+	for (i = 0; i <= 5; ++i)                                                        /*Запись в массив количества костей каждого номинала*/
+	{
+		switch (*(dicesPtr + i))
 		{
-			switch (*amountBonesPtr)
+		case 1:
+			amountDices[0]++;
+			break;
+		case 2:
+			amountDices[1]++;
+			break;
+		case 3:
+			amountDices[2]++;
+			break;
+		case 4:
+			amountDices[3]++;
+			break;
+		case 5:
+			amountDices[4]++;
+			break;
+		case 6:
+			amountDices[5]++;
+			break;
+		}
+	}
+
+	for (i = 0; i <= 5; i++)                                                        /*Удаление не приносящих очки значений*/
+	{
+		if ((i != 0 && i != 4) && amountDices[i] <= 2)
+		{
+			amountDices[i] = 0;
+		}
+		*selectedDicesCounterPtr = *selectedDicesCounterPtr + amountDices[i];       /*Подсчёт количества выбранных костей*/
+	}
+
+	free(dicesPtr);
+
+	return amountDices;
+}
+
+
+int* selectionOfDices(int* dicesPtr, int* selectedDicesCounterPtr)
+{
+	int i, d = -1, diceNumbers[6] = { 0 };
+	static int amountDices[6] = {0};
+
+	printf("\n\nEnter bone numbers (enter 0 to finish)\n");
+	for (i = 0; i <= 5 && d != 0; ++i)                                              /*Игрок выбирает кости и вводи их номера*/
+	{
+		scanf_s("%d", &d);
+		diceNumbers[i] = d;
+		if (d != 0)                                                                 /*Счётчик не должен защитывать символ завершения ввода*/
+		{
+			(*selectedDicesCounterPtr)++;                                           /*Считает количество выбранных костей*/
+		}
+	}
+
+	for (i = 0; i <= 5; i++)                                                        /*Обнуление массива*/
+	{
+		amountDices[i] = 0;
+	}
+
+	for (i = 0; diceNumbers[i] != 0 && i <= 5; ++i)                                 /*Запись в массив количества костей каждого номинала*/
+	{
+		switch (*(dicesPtr + diceNumbers[i] - 1))
+		{
+		case 1:
+			amountDices[0]++;
+			break;
+		case 2:
+			amountDices[1]++;
+			break;
+		case 3:
+			amountDices[2]++;
+			break;
+		case 4:
+			amountDices[3]++;
+			break;
+		case 5:
+			amountDices[4]++;
+			break;
+		case 6:
+			amountDices[5]++;
+			break;
+		}
+	}
+
+	free(dicesPtr);
+
+	return amountDices;
+}
+
+
+void calculateTheSum(int* amountDicesPtr, int* sumPtr)
+{
+	int i, dicesCounter = 0;
+
+	for (i = 0; i <= 5; i++)                                        /*Подсчёт результата*/
+	{
+		if (i == 0)                                                 /*Для 1 и 5 действуют отдельные правила подсчёта суммы*/
+		{
+			switch (*amountDicesPtr)
 			{
 			case 1:
 				*sumPtr = *sumPtr + HUNDRED;
@@ -263,7 +271,7 @@ void calculatingTheSum(int* amountBonesPtr, int* sumPtr)
 		}
 		else if (i == 4)
 		{
-			switch (*(amountBonesPtr + 4))
+			switch (*(amountDicesPtr + 4))
 			{
 			case 1:
 				*sumPtr = *sumPtr + FIFTY;
@@ -287,9 +295,9 @@ void calculatingTheSum(int* amountBonesPtr, int* sumPtr)
 		}
 		else
 		{
-			if (*(amountBonesPtr + i) >= 3)
+			if (*(amountDicesPtr + i) >= 3)
 			{
-				switch (*(amountBonesPtr + i))
+				switch (*(amountDicesPtr + i))
 				{
 				case 3:
 					*sumPtr = *sumPtr + (i + 1) * HUNDRED;
@@ -305,17 +313,17 @@ void calculatingTheSum(int* amountBonesPtr, int* sumPtr)
 					break;
 				}
 			}
-		}
-	}
-
-	for (i = 0; i <= 5; i++)											/*Обнуление суммы в том случае, если была выбрана одна или две кости со значением 2,3,4,6*/
-	{
-		if (i == 1 || i == 2 || i == 3 || i == 5)
-		{
-			if (*(amountBonesPtr + i) == 1 || *(amountBonesPtr + i) == 2)
-			{
+			else if (*(amountDicesPtr + i) != 0)                                  /*Обнуление суммы в том случае, если была выбрана одна*/
+			{                                                                     /*или две кости со значением 2,3,4,6*/                                                    
 				*sumPtr = -1;
+				break;
 			}
 		}
+		dicesCounter = dicesCounter + *(amountDicesPtr + i);
+	}
+
+	if (dicesCounter == 0)
+	{
+		*sumPtr = -1;                                                              /*Обнуление суммы в том случае, если не выбрали ни одну кость*/
 	}
 }
