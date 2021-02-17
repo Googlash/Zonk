@@ -10,14 +10,7 @@ int botRoundResult(int*, int*, int*);
 /*Функция получает в качестве параметра итоговый результат. Если победа достигнута - возвращает истину, в противном случае - ложь*/
 bool checkWin(int result)
 {
-	if (result > 4000 - 1)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return result > 4000 - 1;
 }
 
 
