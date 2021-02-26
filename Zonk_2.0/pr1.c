@@ -5,12 +5,14 @@
 #include <windows.h>
 #include <stdbool.h>
 #include "GAME_LOGIC.h"
+#include "Utils.h"
+
 
 int main()
 {
-    int selectedDiceCounter = 0, sum = 0, round = 1;
-    int* dices, amountDices[6];
-    int playerResult = 0, playerDecision = 1;
+    int usedDice = 0, sum = 0, round = 1;
+    int* dices = NULL, sortedDice[6];
+    int playerResult = 0, playerDecision = 1, selectedDice[6];
     int botResult = 0, botDecision = 1;
 
     srand(time(NULL));
@@ -24,11 +26,13 @@ int main()
         printf("\t\t\t\t\t\tPlayer move\n\n");
         while (playerDecision != 0)
         {
-            dices = createRandomDices(6 - selectedDiceCounter);
-            printDices(dices, 6 - selectedDiceCounter);
-            playerMove(dices, &selectedDiceCounter, amountDices);
-            calculateTheSum(amountDices, &sum);
-            playerDecision = playersRoundResult(&sum, &selectedDiceCounter, &playerResult);
+            dices = allocateMemory(6 - usedDice);
+            fillRandomDices(6 - usedDice, generatingRandomDice, dices);
+            printDices(dices, 6 - usedDice);
+            playerMove(&usedDice, selectedDice);
+            sortByQuantity(selectedDice, sortedDice, dices);
+            calculateTheSum(sortedDice, &sum);
+            playerDecision = playersRoundResult(&sum, &usedDice, &playerResult);
         }
         printf("\nThe final result is %d\n\n", playerResult);
         playerDecision = 1;
@@ -42,14 +46,17 @@ int main()
         printf("\t\t\t\t\t\tBot's move\n\n");
         while (botDecision != 0)
         {
-            dices = createRandomDices(6 - selectedDiceCounter);
-            printDices(dices, 6 - selectedDiceCounter);
-            botMove(dices, &selectedDiceCounter, amountDices);
-            calculateTheSum(amountDices, &sum);
+            dices = allocateMemory(6 - usedDice);
+            fillRandomDices(6 - usedDice, generatingRandomDice, dices);
+            printDices(dices, 6 - usedDice);
+            selectAllDice(selectedDice, 6 - usedDice);
+            sortByQuantity(selectedDice, sortedDice, dices);
+            botMove(&usedDice, sortedDice);
+            calculateTheSum(sortedDice, &sum);
 
             Sleep(3000);
 
-            botDecision = botRoundResult(&sum, &selectedDiceCounter, &botResult);
+            botDecision = botRoundResult(&sum, &usedDice, &botResult);
         }
         printf("\nBot's final result is %d\n\n", botResult);
         botDecision = 1;
