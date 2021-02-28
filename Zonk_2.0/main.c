@@ -19,14 +19,14 @@ int main()
 
     printf("\t\t\t\t\t\tNew game !\n\n");
 
-    while (!checkWin(playerResult) && !checkWin(botResult))
+    while (!isWon(playerResult) && !isWon(botResult))
     {
         printf("\t\t\t\t\t\tRound %d\n\n", round);
 
         printf("\t\t\t\t\t\tPlayer move\n\n");
         while (playerDecision != 0)
         {
-            dices = allocateMemory(6 - usedDice);
+            dices = getIntArray(6 - usedDice);
             fillRandomDices(dices, 6 - usedDice, generateRandomDice);
             printDices(dices, 6 - usedDice);
             clearSelectedDice(selectedDice);
@@ -39,8 +39,8 @@ int main()
         printf("\nThe final result is %d\n\n", playerResult);
         playerDecision = 1;
 
-        /*РџСЂРµР¶РґРµРІСЂРµРјРµРЅРЅРѕРµ РѕРєРѕРЅС‡Р°РЅРёРµ С†РёРєР»Р°, РµСЃР»Рё РёРіСЂРѕРє РЅР°Р±РёСЂР°РµС‚ РЅРµРѕР±С…РѕРґРёРјСѓСЋ СЃСѓРјРјСѓ*/
-        if (checkWin(playerResult))
+        /*Преждевременное окончание цикла, если игрок набирает необходимую сумму*/
+        if (isWon(playerResult))
         {
             break;
         }
@@ -48,7 +48,7 @@ int main()
         printf("\t\t\t\t\t\tBot's move\n\n");
         while (botDecision != 0)
         {
-            dices = allocateMemory(6 - usedDice);
+            dices = getIntArray(6 - usedDice);
             fillRandomDices(dices, 6 - usedDice, generateRandomDice);
             printDices(dices, 6 - usedDice);
             clearSelectedDice(selectedDice);

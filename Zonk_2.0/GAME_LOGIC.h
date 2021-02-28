@@ -1,7 +1,8 @@
-bool checkWin(int);
-int generatingRandomDice();
-void fillRandomDices(int, int (*)(), int*);
+bool isWon(int);
+int generateRandomDice();
+void fillRandomDices(int* , int, int (*)());
 void printDices(int*, int);
+void clearSelectedDice(int*);
 void playerMove(int*, int*);
 void botMove(int*, int*);
 void selectAllDice(int*, int);

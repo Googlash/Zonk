@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pr1.c">
+    <ClCompile Include="GAME_LOGIC.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="GAME_LOGIC.c">
+    <ClCompile Include="main.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
