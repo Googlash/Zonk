@@ -4,6 +4,7 @@
 #include <malloc.h>
 #include <windows.h>
 #include <stdbool.h>
+#include "GAME_CONST.h"
 #include "GAME_LOGIC.h"
 #include "Utils.h"
 
@@ -26,10 +27,10 @@ int main()
         printf("\t\t\t\t\t\tPlayer move\n\n");
         while (playerDecision != 0)
         {
-            dices = getIntArray(6 - usedDice);
-            fillRandomDices(dices, 6 - usedDice, generateRandomDice);
-            printDices(dices, 6 - usedDice);
-            clearSelectedDice(selectedDice);
+            dices = getIntArray(INITIAL_AMOUNT_DICE - usedDice);
+            fillRandomDices(dices, INITIAL_AMOUNT_DICE - usedDice, generateDiceValues);
+            printDices(dices, INITIAL_AMOUNT_DICE - usedDice);
+            fillWithZeros(selectedDice, INITIAL_AMOUNT_DICE);
             playerMove(&usedDice, selectedDice);
             sortByQuantity(selectedDice, sortedDice, dices);
             calculateTheSum(sortedDice, &sum);
@@ -48,11 +49,11 @@ int main()
         printf("\t\t\t\t\t\tBot's move\n\n");
         while (botDecision != 0)
         {
-            dices = getIntArray(6 - usedDice);
-            fillRandomDices(dices, 6 - usedDice, generateRandomDice);
-            printDices(dices, 6 - usedDice);
-            clearSelectedDice(selectedDice);
-            selectAllDice(selectedDice, 6 - usedDice);
+            dices = getIntArray(INITIAL_AMOUNT_DICE - usedDice);
+            fillRandomDices(dices, INITIAL_AMOUNT_DICE - usedDice, generateDiceValues);
+            printDices(dices, INITIAL_AMOUNT_DICE - usedDice);
+            fillWithZeros(selectedDice, INITIAL_AMOUNT_DICE);
+            selectAllDice(selectedDice, INITIAL_AMOUNT_DICE - usedDice);
             sortByQuantity(selectedDice, sortedDice, dices);
             botMove(&usedDice, sortedDice);
             calculateTheSum(sortedDice, &sum);

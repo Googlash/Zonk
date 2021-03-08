@@ -6,20 +6,19 @@
 #include <stdbool.h>
 #include "GAME_CONST.h"
 
-/*Функция получает в качестве параметра итоговый результат. Если победа достигнута - возвращает истину, в противном случае - ложь*/
+
 bool isWon(int result)
 {
 	return result > WINNING_RESULT - 1;
 }
 
-/*Функия возвращает случайне число от 1 до 6*/
-int generateRandomDice()
+
+int generateDiceValues()
 {
 	return rand() % 5 + 1;
 }
 
 
-/*Функия получает в качестве параметра указатель на маасив, количество неиспользованных костей и функцию генерации случайных чисел*/
 void fillRandomDices(int* diceArray, int amountUnusedDice, int(*generateDiceValues)())
 {
 	int i;
@@ -34,7 +33,6 @@ void fillRandomDices(int* diceArray, int amountUnusedDice, int(*generateDiceValu
 }
 
 
-/*Функция получает в качестве параметра указатель на массив костей и количество неиспользованных костей*/
 void printDices(int* diceArray, int amountUnusedDice)
 {
 	int i;
@@ -46,19 +44,6 @@ void printDices(int* diceArray, int amountUnusedDice)
 }
 
 
-/*Функция получает в качестве параметра указатель на массив выбранных костей*/
-void clearSelectedDice(int* selectedDice)
-{
-	int i;
-
-	for (i = 0; i < INITIAL_AMOUNT_DICE; i++)
-	{
-		*(selectedDice + i) = 0;
-	}
-}
-
-
-/*Функция получает в качестве параметра указатель на количество использованных костей и указатель на массив выбранных костей*/
 void playerMove(int* amountUsedDice, int* selectedDice)
 {
 	int i, d = -1;
@@ -79,7 +64,6 @@ void playerMove(int* amountUsedDice, int* selectedDice)
 }
 
 
-/*Функция получает в качестве параметра указатель на количество использованных костей и указатель на массив кол-ва костей каждого номинла*/
 void botMove(int* amountUsedDice, int* sortedDice)
 {
 	int  i;
@@ -95,7 +79,7 @@ void botMove(int* amountUsedDice, int* sortedDice)
 	}
 }
 
-/*Функция получает в качестве параметра указатель на массив выбранных костей и количество неиспользованных костей*/
+
 void selectAllDice(int* selectedDice, int amountUnusedDice)
 {
 	int i;
@@ -107,7 +91,6 @@ void selectAllDice(int* selectedDice, int amountUnusedDice)
 }
 
 
-/*Функция получает в качестве параметра указатель на массив выбранных костей, указатель на массив всех сгенерированных костей и указатель на массив отсортированных костей*/
 void sortByQuantity(int* selectedDice, int* sortedDice, int* dicesArray)
 {
 	int i;
@@ -145,7 +128,6 @@ void sortByQuantity(int* selectedDice, int* sortedDice, int* dicesArray)
 }
 
 
-/*Функция получает в качестве параметра указатель на массив кол-ва костей каждого номинала и указатель на переменную для записи суммы*/
 void calculateTheSum(int* sortedDice, int* sum)
 {
 	int i, dicesCounter = 0;
@@ -243,7 +225,6 @@ void calculateTheSum(int* sortedDice, int* sum)
 }
 
 
-/*Функция получает в качестве параметра указатель на сумму, указатель на кол-во выбранных костей, указатель на итоговый результат игрока и возвращает выбор игрока*/
 int playersRoundResult(int* sum, int* amountUsedDice, int* playerResult)
 {
 	int playerDecision;
@@ -293,7 +274,6 @@ int playersRoundResult(int* sum, int* amountUsedDice, int* playerResult)
 }
 
 
-/*Функция получает в качестве параметра указатель на сумму, указатель на кол-во выбранных костей, указатель на итоговый результат бота и возвращает выбор бота*/
 int botRoundResult(int* sum, int* amountUsedDice, int* botResult)
 {
 	/*Бот выбирает комбинацию, которая не приносит очков и вызывает обнуление текущей суммы*/
